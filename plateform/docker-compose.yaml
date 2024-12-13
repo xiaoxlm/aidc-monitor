@@ -11,6 +11,8 @@ services:
       - ./redis/data:/data #挂载数据目录到本地
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always
+    networks:
+      - mynetwork
   # mysql 容器
   mysql:
     container_name: n9e_mysql #指定容器名
@@ -34,6 +36,8 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
     restart: always
+    networks:
+      - mynetwork
   n9e:
     container_name: n9e
     image: xtrace-backend:v1.0.0
@@ -44,6 +48,8 @@ services:
     depends_on:
       - redis
       - mysql
+    networks:
+      - mynetwork
   tracex-ui:
     container_name: tracex-ui
     image: tracex-ui:test-20241129-1050
@@ -52,3 +58,9 @@ services:
     restart: always
     depends_on:
       - n9e
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
