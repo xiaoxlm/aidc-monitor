@@ -37,9 +37,7 @@ services:
   n9e:
     container_name: n9e
     image: xtrace-backend:v1.0.0
-    #network_mode: "host"
-    ports:
-      - 17000:17000
+    network_mode: "host"
     volumes:
       - ./n9e-config:/app/etc/
     restart: always
