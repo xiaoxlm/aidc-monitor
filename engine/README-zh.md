@@ -16,7 +16,7 @@ $ sudo chown -R  10001:10001 loki/data/ # 修改 loki 数据目录的权限
 # 修改 prometheus 的配置
 在目录中修改 `prometheus.yml` 配置文件。
 
-用户只需要在标有注释 `# 修改处` 的地方修改对应的值即可, 也就是 "opentelemetry-collector节点ip"。
+用户只需要在标有注释 `# 修改处` 的地方修改对应的值即可, 也就是 "opentelemetry-collector节点ip"！
 
 # 启动
 我们不需要修改docker-compose.yaml里面的内容，直接启动即可:
@@ -33,7 +33,7 @@ $ docker-compose -f docker-compose.yaml up -d
 # 验证 loki 启动成功
 与 exporter 验证类似。能看到 loki 内部暴露的指标即启动成功。
 ```shell
-curl http://10.10.1.84:3100/metrics
+curl http://节点:3100/metrics
 ```
 
 ## 补充
