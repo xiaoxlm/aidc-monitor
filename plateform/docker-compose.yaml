@@ -1,0 +1,54 @@
+version: "3.3"
+services:
+  # redis 容器
+  redis:
+    container_name: n9e_redis
+    image: redis:7.2.4
+    ports:
+      - 6379:6379
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis/data:/data #挂载数据目录到本地
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    restart: always
+  # mysql 容器
+  mysql:
+    container_name: n9e_mysql #指定容器名
+    image: mysql:8.3.0
+    ports:
+      - 3306:3306
+      - 3307:3307
+    # 环境变量
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 'uWXf87plmQGz8zMM'
+    privileged: true
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --default-authentication-plugin=mysql_native_password
+    working_dir: /var/lib/mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    restart: always
+  n9e:
+    container_name: n9e
+    image: xtrace-backend:v1.0.0
+    network_mode: "host"
+    volumes:
+      - ./n9e-config:/app/etc/
+    restart: always
+    depends_on:
+      - redis
+      - mysql
+  tracex-ui:
+    container_name: tracex-ui
+    image: tracex-ui:test-20241129-1050
+    ports:
+      - 8081:2015
+    restart: always
+    depends_on:
+      - n9e

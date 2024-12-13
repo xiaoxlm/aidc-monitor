@@ -1,0 +1,81 @@
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: snmp-exporter
+          scrape_interval: 1s
+          static_configs:
+            - targets: [交换机1的ip,交换机2的ip,交换机3的ip] # 修改处: 交换机ip
+          metrics_path: /snmp
+          params:
+            auth: [public_v2]
+            module: [if_mib,mikrotik,hrDevice,hrSWInstalled,hrSWRun,hrSWRunPerf,hrStorage,hrSystem]
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - source_labels: [__param_target]
+              target_label: instance
+            - target_label: __address__
+              replacement: snmp-exporter的节点ip:9116 # 修改处：snmp-exporter所在节点ip
+        - job_name: node-exporter
+          scrape_interval: 5s
+          static_configs:
+            - targets: [ node-exporter节点1的ip:9100 ] # 修改处
+              labels:
+                host_ip: 'node-exporter节点1的ip' # 修改处
+            - targets: [ node-exporter节点2的ip:9100 ] # 修改处
+              labels:
+                host_ip: 'node-exporter节点2的ip' # 修改处
+        - job_name: nvidia-smi-exporter
+          scrape_interval: 5s
+          static_configs:
+            - targets: [ smi-exporter节点1的ip:9835 ] # 修改处
+              labels:
+                host_ip: 'smi-exporter节点1的ip' # 修改处
+            - targets: [ smi-exporter节点2的ip:9835 ] # 修改处
+              labels:
+                host_ip: 'smi-exporter节点1的ip' # 修改处
+        - job_name: dcgm-exporter
+          scrape_interval: 5s
+          static_configs:
+            - targets: [ dcgm-exporter节点1的ip:9400 ] # 修改处
+              labels:
+                host_ip: 'dcgm-exporter节点1的ip' # 修改处
+            - targets: [ dcgm-exporter节点2的ip:9400 ] # 修改处
+              labels:
+                host_ip: 'dcgm-exporter节点1的ip' # 修改处
+#        - job_name: kube-state-metrics-exporter # k8s 资源采集器，需要在k8s中部署kube-state-metrics。如果没有使用 k8s 或者没有部署 kube-state-metrics，请把这里注释掉
+#          scrape_interval: 5s
+#          static_configs:
+#            - targets: [ k8s某节点ip:31666 ] # 这里使用 k8s service  node exporter type 模式暴露的 kube-state-metrics-exporter 监控指标
+#              labels:
+#                kube_state_metrics: 'true'
+
+processors:
+  attributes: # 维度属性
+    actions:
+      - key: collector_ip # 采集器标识
+        value: 具体ip值 # 修改处: 采集节点ip
+        action: insert
+      - key: IBN  # 算网维度
+        value: 算网A # 修改处: 算网唯一标识
+        action: insert
+  batch:
+
+exporters:
+  debug:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    #namespace: default
+
+service:
+  extensions: [health_check]
+  pipelines:
+    metrics:
+      receivers: [prometheus]
+      processors: [batch,attributes]
+      exporters: [debug,prometheus]
