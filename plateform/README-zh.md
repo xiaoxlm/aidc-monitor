@@ -9,7 +9,7 @@
 # 先中间件启动
 进入目录后，不需要修改docker-compose.yaml里面的内容，直接启动即可:
 ```shell
-docker-compose -f docker-compose.yaml up -d n9e_mysql n9e_redis
+$ docker-compose -f docker-compose.yaml up -d mysql redis
 
 ✔ Container n9e_redis       Started   0.5s
 ✔ Container n9e_mysql       Started   0.5s
@@ -34,7 +34,7 @@ Address = "redis节点ip:6379"
 
 然后启动
 ```shell
-docker-compose -f docker-compose.yaml up -d n9e tracex-ui
+$ docker-compose -f docker-compose.yaml up -d n9e tracex-ui
 
 ✔ Container n9e             Started   0.8s
 ✔ Container tracex-ui       Started   0.8s
