@@ -1,0 +1,116 @@
+#apiVersion: apps/v1
+#kind: DaemonSet
+#metadata:
+#  annotations:
+#    deprecated.daemonset.template.generation: "2"
+#    nvidia.com/last-applied-hash: "2673587653"
+#    openshift.io/scc: nvidia-dcgm-exporter
+#  creationTimestamp: "2024-12-06T05:12:12Z"
+#  generation: 2
+#  labels:
+#    app: nvidia-dcgm-exporter
+#    app.kubernetes.io/managed-by: gpu-operator
+#    helm.sh/chart: gpu-operator-v24.6.2
+#  name: nvidia-dcgm-exporter
+#  namespace: gpu-operator
+#  ownerReferences:
+#    - apiVersion: nvidia.com/v1
+#      blockOwnerDeletion: true
+#      controller: true
+#      kind: ClusterPolicy
+#      name: cluster-policy
+#      uid: 4f368fdc-a2c5-4069-b005-626c5513ebb9
+#  resourceVersion: "17229108"
+#  uid: 219116d1-7286-4e13-b7df-b75b36147c82
+#spec:
+#  revisionHistoryLimit: 10
+#  selector:
+#    matchLabels:
+#      app: nvidia-dcgm-exporter
+#  template:
+#    metadata:
+#      labels:
+#        app: nvidia-dcgm-exporter
+#        app.kubernetes.io/managed-by: gpu-operator
+#        helm.sh/chart: gpu-operator-v24.6.2
+#    spec:
+#      containers:
+#        - env:
+#            - name: LM
+#            - name: DCGM_EXPORTER_LISTEN
+#              value: :9400
+#            - name: DCGM_EXPORTER_KUBERNETES
+#              value: "true"
+#            - name: DCGM_EXPORTER_COLLECTORS
+#              value: /etc/dcgm-exporter/dcp-metrics-included.csv
+#              #value: /etc/dcgm-exporter/dcgm-metrics.csv
+#            - name: NODE_NAME
+#              valueFrom:
+#                fieldRef:
+#                  apiVersion: v1
+#                  fieldPath: spec.nodeName
+#          image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04
+#          imagePullPolicy: IfNotPresent
+#          name: nvidia-dcgm-exporter
+#          ports:
+#            - containerPort: 9400
+#              name: metrics
+#              protocol: TCP
+#          resources: {}
+#          securityContext:
+#            privileged: true
+#          terminationMessagePath: /dev/termination-log
+#          terminationMessagePolicy: File
+#          volumeMounts:
+#            - mountPath: /etc/dcgm-exporter/dcp-metrics-included.csv
+#              name: metrics-config
+#              subPath: dcgm-metrics.csv
+#            - mountPath: /var/lib/kubelet/pod-resources
+#              name: pod-gpu-resources
+#              readOnly: true
+#      dnsPolicy: ClusterFirst
+#      initContainers:
+#        - args:
+#            - until [ -f /run/nvidia/validations/toolkit-ready ]; do echo waiting for
+#              nvidia container stack to be setup; sleep 5; done
+#          command:
+#            - sh
+#            - -c
+#          image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.6.2
+#          imagePullPolicy: IfNotPresent
+#          name: toolkit-validation
+#          resources: {}
+#          securityContext:
+#            privileged: true
+#          terminationMessagePath: /dev/termination-log
+#          terminationMessagePolicy: File
+#          volumeMounts:
+#            - mountPath: /run/nvidia
+#              mountPropagation: HostToContainer
+#              name: run-nvidia
+#      nodeSelector:
+#        nvidia.com/gpu.deploy.dcgm-exporter: "true"
+#      priorityClassName: system-node-critical
+#      restartPolicy: Always
+#      schedulerName: default-scheduler
+#      securityContext: {}
+#      serviceAccount: nvidia-dcgm-exporter
+#      serviceAccountName: nvidia-dcgm-exporter
+#      terminationGracePeriodSeconds: 30
+#      tolerations:
+#        - effect: NoSchedule
+#          key: nvidia.com/gpu
+#          operator: Exists
+#      volumes:
+#        - hostPath:
+#            path: /var/lib/kubelet/pod-resources
+#            type: ""
+#          name: pod-gpu-resources
+#        - hostPath:
+#            path: /run/nvidia
+#            type: ""
+#          name: run-nvidia
+#        - name: etrics-config
+#          configMap:
+#            defaultMode: 420
+#            name: exporter-metrics-config-map

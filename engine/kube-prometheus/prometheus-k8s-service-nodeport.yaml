@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-k8s-nodeport
+  namespace: monitoring
+spec:
+  ports:
+  - name: web-nodeport
+    port: 9090
+    protocol: TCP
+    targetPort: web
+    nodePort: 30900
+  selector:
+    prometheus: k8s
+  type: NodePort

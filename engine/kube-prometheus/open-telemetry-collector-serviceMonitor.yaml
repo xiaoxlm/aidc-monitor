@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-telemetry-collector
+  namespace: monitoring
+  labels:
+    app: open-telemetry-collector
+    app.kubernetes.io/name: open-telemetry-collector
+spec:
+  type: ClusterIP
+  ports:
+  - name: metrics
+    port: 8889
+    protocol: TCP
+    targetPort: 8889
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: open-telemetry-collector
+  namespace: monitoring
+  labels:
+    app: open-telemetry-collector
+    app.kubernetes.io/name: open-telemetry-collector
+subsets:
+  - addresses:
+      - ip: 10.10.1.84  # 这里是外部资源列表
+    ports:
+      - name: metrics
+        port: 8889
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: open-telemetry-collector
+  namespace: monitoring
+  labels:
+    app: open-telemetry-collector
+    release: prometheus
+spec:
+  selector:
+    matchLabels:            #Service选择器
+      app: open-telemetry-collector
+  namespaceSelector:        #Namespace选择器
+    matchNames:
+      - monitoring
+  endpoints:
+  - port: metrics           #采集节点端口（svc定义）
+    interval: 10s           #采集频率根据实际需求配置，prometheus默认15s
+    path: /metrics          #默认地址/metrics

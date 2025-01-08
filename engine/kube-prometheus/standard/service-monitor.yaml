@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kube-state-metrics
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/name: kube-state-metrics
+    app.kubernetes.io/version: 2.14.0
+spec:
+  selector:
+    matchLabels:            #Service选择器
+      app.kubernetes.io/component: exporter
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/version: 2.14.0
+  namespaceSelector:        #Namespace选择器
+    matchNames:
+      - monitoring
+  endpoints:
+    - port: http-metrics           #采集节点端口（svc定义）
+      interval: 30s           #采集频率根据实际需求配置，prometheus默认15s
+      path: /metrics          #默认地址/metrics
