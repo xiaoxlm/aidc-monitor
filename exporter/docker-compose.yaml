@@ -19,8 +19,12 @@ services:
     container_name: dcgm-exporter
     image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04
     restart: always
+    volumes:
+      - ./dcp-metrics-included.csv:/etc/dcgm-exporter/default-counters.csv
     ports:
       - 9400:9400
+    cap_add:
+      - SYS_ADMIN
     deploy:
       resources:
         reservations:

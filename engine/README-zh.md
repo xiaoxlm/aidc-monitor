@@ -4,11 +4,12 @@
 这里面我们使用 prometheus 作为指标收集引擎；使用 loki 日志收集引擎。
 >我们模拟是在同一个内网环境，即所有节点都是 ping 通。
 
+注意! 如果我们在 k8s 环境中已经部署了 kube-prometheus，那么这一节中，我们就无需修改、部署 prometheus相关内容。
 
 # 修改目录权限
 进入目录请先修改目录权限:
 ```shell
-$ sudo chown -R nobody:nogroup data/ # 修改prometheus 数据目前的权限
+$ sudo chown -R nobody:nogroup data/ # 修改 prometheus 数据目前的权限
 
 $ sudo chown -R  10001:10001 loki/data/ # 修改 loki 数据目录的权限
 ```

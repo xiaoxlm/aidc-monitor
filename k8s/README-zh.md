@@ -1,7 +1,14 @@
 # 说明
 这里监控 k8s 集群的模块。
 
-主要监控 k8s 本身的资源信息和 pod 中的日志，用到了 kube-state-metrics 和 promtail 两个组件。。
+这里会安装 kube-prometheus，来监控k8s集群相关内容。
+主要监控 k8s 本身的资源信息和 pod 中的日志，用到了 kube-state-metrics 和 promtail 两个组件。
+> 如果不需要收集日志，可以跳过 promtail 的安装
+
+
+k8s 环境要部署的内容:
+1. 先不用 dcgm-exporter
+2. 重新安装
 
 # 部署 kube-state-metrics
 kube-state-metrics 主要用于暴露 k8s 的相关资源信息，比如Node、Deployment、Job、Pod 等。
