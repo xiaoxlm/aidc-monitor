@@ -46,9 +46,12 @@ services:
       - mysql
   tracex-ui:
     container_name: tracex-ui
-    image: tracex-ui:test-20241228-1159
+    image: xtrace-n9e-ui:test-202518-1751
     ports:
       - 8081:2015
+    environment:
+      - API_HOST=后端地址 # 修改出
+      - IBN_HOST=ibn地址  # 修改出
     restart: always
     depends_on:
       - n9e

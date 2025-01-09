@@ -14,6 +14,13 @@ $ docker-compose -f docker-compose.yaml up -d
 ✔ Container dcgm-exporter        Started   0.8s
 ```
 
+> 启动的时候可能会遇到报错:`could not select device driver "" with capabilities: [[gpu]]`
+> 
+> 这是因为没有安装 nvidia-container-toolkit。按照如下步骤解决问题:
+> 1. apt-get install -y nvidia-container-toolkit
+> 2. systemctl restart docker
+
+
 ## 验证 exporter 启动成功
 我们可以验证各个 exporter 是否采集成功。以下命令如果有 metrics 数据返回则代表采集成功:
 ```shell
