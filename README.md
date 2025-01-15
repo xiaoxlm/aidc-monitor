@@ -15,18 +15,12 @@
 - 请提前安装好 Docker、docker-compose
 
 # 操作步骤
-## 第一步: 安装 k8s 相关采集。
+## 第一步: 安装 k8s 相关内容。
 > 如果没有使用 k8s，可以跳过该步骤
 
-前提:
-```shell
-1. 安装好 k8s 集群
-2. 安装好 nvidia-network-operator， gpu-operator
+主要安装 k8s集群、prometheus-operator 以及相关指标采集器。
 
-具体请参考 k8s 环境的安装手册？？？
-```
-
-接下来安装采集，详情请参考: [k8s相关采集](./k8s/README-zh.md)
+具体请参考 [k8s 环境的安装手册](./k8s/README-zh.md)
 
 ## 第二步: 安装各类exporters。 
 主要有三个exporter。该步骤暴露的节点端口有:
@@ -64,21 +58,31 @@ otel-collector: 8889
 mysql: 3306
 redis: 6379
 后端服务接口: 17000
-ibn接口: ?
 前端服务接口: 8081
 ```
 
 详情请参考: [平台系统安装手册](./plateform/README-zh.md)
 
 # 镜像问题
-如果由于网络问题无法拉取镜像，我们将需要的镜像(x86)全部分批打包好。可以到这下载[镜像链接](https://pan.baidu.com/s/1mkppNyGjJKvMgbOVvqI07w?pwd=de5q)
+如果由于网络问题无法拉取镜像，我们将需要的镜像(x86)全部分批打包好。
 
 # 注意事项
-当我们的 xtrace-backend 代码更新后，需要重新构建其镜像。然后注意修改 ./plateform/docker-compose.yaml 中的镜像数据:
+当我们的 xtrace-backend 和 xtrace-ui 代码更新后，需要重新构建其镜像。然后注意修改 ./plateform/docker-compose.yaml 中的镜像数据:
 ```yaml
   n9e:
     container_name: n9e
     image: xtrace-backend:v1.0.0 # 注意修改镜像版本
+  tracex-ui:
+    container_name: tracex-ui
+    image: xtrace-n9e-ui:test-202518-1751 # 注意修改镜像版本
+    ports:
+      - 8081:2015
+    environment:
+      - API_HOST=后端地址 # 修改出
+      - IBN_HOST=ibn地址  # 修改出
+    restart: always
+    depends_on:
+      - n9e
 ```
 
 

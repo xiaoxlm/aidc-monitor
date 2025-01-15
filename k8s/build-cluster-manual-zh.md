@@ -407,6 +407,22 @@ sriov-device-plugin-dcl7m                                         1/1     Runnin
 whereabouts-7mhdf                                                 1/1     Running   2 (138m ago)   24h
 whereabouts-hctm8                                                 1/1     Running   1 (19h ago)    24h
 ```
+
+因为我们在节点上已经部署了 dcgm-export，所以这里我们编辑一下 ClusterPolicy，将 dcgm-export 设置为false：
+```shell
+$ kubectl edit ClusterPolicy cluster-policy
+
+dcgmExporter:
+    enabled: false
+    env:
+    - name: DCGM_EXPORTER_LISTEN
+      value: :9400
+    - name: DCGM_EXPORTER_KUBERNETES
+      value: "true"
+    - name: DCGM_EXPORTER_COLLECTORS
+      value: /etc/dcgm-exporter/dcp-metrics-included.csv
+```
+
 4. 创建 HostDeviceNetwork
 ```shell
 $ kubectl apply -f - <<EOF
@@ -424,6 +440,7 @@ spec:
     }
 EOF
 ```
+其中的 `networkNamespace` 请填写为对应训练的命名空间。
 
 ## 安装 nvidia-gpu-operator
 使用 helm 安装:

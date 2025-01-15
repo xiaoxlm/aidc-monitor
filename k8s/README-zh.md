@@ -1,43 +1,58 @@
 # 说明
-这里监控 k8s 集群的模块。
-
-这里会安装 kube-prometheus，来监控k8s集群相关内容。
-主要监控 k8s 本身的资源信息和 pod 中的日志，用到了 kube-state-metrics 和 promtail 两个组件。
+该模块涉及到k8s的相关部署，包括 k8s 集群的搭建、nvidia 相关的operator， prometheus-operator 及相关监控。
 > 如果不需要收集日志，可以跳过 promtail 的安装
 
+# 部署 k8s
+请参考 [k8s部署手册](./build-cluster-manual-zh.md)
 
-k8s 环境要部署的内容:
-1. 先不用 dcgm-exporter
-2. 重新安装
+# 部署 prometheus-operator
+部署 prometheus-operator 及其相关监控。包括了 kube-state-metrics 与 cadvisor 等指标。
 
-# 部署 kube-state-metrics
-kube-state-metrics 主要用于暴露 k8s 的相关资源信息，比如Node、Deployment、Job、Pod 等。
-
-首先我们把  [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) 项目`git clone`到本地。然后执行如下命令部署:
+首先进入到该目录 "./k8s" 后，按如下步骤执行:
+1. 部署相关 crd
 ```shell
-kubectl apply -k examples/standard
+$ kubectl apply --server-side -f setup/
+$ kubectl wait \
+	--for condition=Established \
+	--all CustomResourceDefinition \
+	--namespace=monitoring
 ```
-这时我们执行如下命令:
+2. 部署相关监控
 ```shell
-$ kubectl get pods -A | grep kube-state-metrics
-
-kube-system               kube-state-metrics-7b8966b979-h9whd                               1/1     Running             0              46h
-```
-
-看到 pod 是 Running 状态即部署成功了。
-
-## 暴露指标
-这时我们部署一个 kube-state-metrics 相关的 nodePort Service 用于暴露指标。
-
-进入该目录后执行:
-```shell
-$ kubectl apply -f ./kube-state-metrics-nodeport.yaml
+$ kubectl apply -f kube-prometheus/
 ```
 
-然后我们执行如下命令，如果有返回指标则说明指标暴露成功，可以采集了:
+3. 部署 kube-state-metrics
 ```shell
-$ curl http://k8s节点ip:31666/metrics
+kubectl apply -k kube-prometheus/kube-state-metrics/
 ```
+
+然后我们看到 pod 已经 running 起来:
+```shell
+$ kubectl get pods -nmonitoring
+
+NAME                                  READY   STATUS    RESTARTS        AGE
+blackbox-exporter-5dfbb6c6b5-skvfz    3/3     Running   15 (60m ago)    6d23h
+grafana-86bf6d9f44-7jvj6              1/1     Running   5 (60m ago)     6d23h
+kube-state-metrics-7b8966b979-vmnpx   1/1     Running   43 (55m ago)    6d23h
+prometheus-adapter-77f8587965-2lbf7   1/1     Running   6 (4h8m ago)    6d23h
+prometheus-adapter-77f8587965-t9cs5   1/1     Running   9 (55m ago)     6d23h
+prometheus-k8s-0                      2/2     Running   10 (60m ago)    6d23h
+prometheus-k8s-1                      2/2     Running   12 (4h8m ago)   6d23h
+prometheus-operator-5c868d654-grfqs   2/2     Running   12 (55m ago)    6d23h
+```
+
+因为我们已经部署了一个 NodePort
+```shell
+$ kubectl get svc prometheus-k8s-nodeport
+NAME                      TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+prometheus-k8s-nodeport   NodePort   10.105.149.238   <none>        9090:30900/TCP   6d23h
+```
+
+所以，我们在浏览器中输入 http://nodeIp:30900 就能看到 prometheus 的页面。同时进入 http://nodeIp:30900/targets 页面可以看到监控了哪些内容。
+
+# 部署 dlrover
+请参考 [dlrover部署手册](./dlrover-zh.md)
 
 # 部署 promtail
 promtail 主要用日志的采集，它与 loki 衔接得非常丝滑。如果我们没有部署 loki，那么这部分内容可以跳过。
