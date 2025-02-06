@@ -1,0 +1,51 @@
+debug: true
+server:
+  addr: ":5317"
+auth:
+  private_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIG5QIBAAKCAYEAxrE/wj8hElKS7neWZPQdulABpa+fhDhPPk+Nd2zukvLaXZPZ
+    tY8XE9JuVnSQbWmu3OpDjGpn9wpozg4zWLv2Dy0UmrEe8YLc1LkvzPWB9AvMBTJM
+    maLzJyw4S6T93qN72klzANbxKvsjmZTVCcdgbynHB1dgHRGMJn5/fheOGsHHqIhz
+    JEtnoRaL8Q0n2CiYLIOq3rWTDH79p7hODpAEGM/KRNmKVeC71nYp7x0XZRFyD6fb
+    Ln5/zYXczUA0XDG5jTqG2rAZakDSYVcD7g9d49XK38tqHT/rrv2Uy6O1+iGvUhL/
+    cQDE5fnYwmv/1I9FH0q1FnV8TOoym9WgATxsQTZ8YgT1dKaTGOsfFFWthe/Csulx
+    OhR0ooTh8QfcaOuAZugTJK1gerDD8m64a4S7/Skwwth/L9hx6hyvIef6jxRm5uZZ
+    4cWxA2YOemdx+ECvDwRAwWIGv8rTbxPakvoD9xSBchh+tCPoBU5ulkf94RZTdPFP
+    9kvcrKDy5wEXZ507AgMBAAECggGBAJLGy1/WPLsJTstkgjAPeYpxodXgl8kXw8o3
+    AD0xtkfNqOwp1VDe5GBbOfEZ6Ls6r9c4IzAuRqDjCqr1KI8rQsjRN4BSyZYFYtat
+    +pbA4gADWvKXxqhUDKVqcCfJOVTnlg2Z5p+/KKbkoNbKcFnp894KkaFltXWjydGB
+    7vKZufsgHTrtmYk9Ps9sFXK7kiyHSGrR1T7yCS/Y+86TQu5VCwG9NiGIRj3MZ1Y1
+    MiMWbXrW2VihWjPNdOHBOmxROpzEiY0l+bqHvBKQ+Fb2EBBPrubdRmNJR1IjcJfP
+    Bs29037csx3DHx05FZzosNE/VxiB6CuJ3Oq4cXuRZMDKkNCTGoE2r9KRL1zujU44
+    evz+SqRZMmQZCmsMPTp169FMHgQ3tL8dG4luul2N7h+cPrGLQvI6zgGrRimiVSWs
+    nevgZXTFQXs/gx4y7YF9uMk/BHbAizDIxhqYogICZZjV8jTrWoSIpoFJaCiViPvN
+    Y550vdzXfi3s7AeS2J/UCMAg7lKz2QKBwQDsqir76QxA8KJ91D5d6vOwyWUEfIvC
+    4NlIJTP7+Mk5QE0PQPKWf5Bof8ul7V71JFYzSJvDWX31vd46ekAcFbpkrNhJ7rp+
+    ZNINc+kMqVTljr299EUdzQXvR8ygWKk/tNypqJdILJQKYl65urKGKaFdE5vV49tU
+    ad5epuOZURJFm+6E199Cu66vaGUO6Ij9yHPf2Ou5eaC0tufprwCiCgw4yI260UEy
+    WnSZ4Qbo59fJbYokJxovEI+IwWjkv2TyOmUCgcEA1uzkMB4tB5JCUo2iABj/TYt6
+    pphsqDRMzJ3vC21uawlhkjdS0KhfduRNGC3Oq+X3kgkWR/M6gAsi29ZfKicNzgAZ
+    UZudySLd1/KJxADZBbdGorFLf6On9rXqBGheHMBgmb2uDPWeV9fYBH6VIkmwRhYu
+    7RCwCRhWk3OItAm3ESKwjDoiKENz0ZYadUjZSQqkHp+yZXDAuexaa+94wxQLWeq0
+    BjcvHRDa06dnsErlMm9e9uQOp/3khEhnhqZdUi8fAoHAYybUBWBY6ugmG7ONQYnK
+    +PkXYm7PmyDax3gWtG1B2MOQxWA/gkAFf1JzPpwZWXkUyD2WTJy0wfz/Gt7W9y0/
+    PyiPIUJsTcHtowc5zz0uPVK1Od0aC+c2ok4hc9hRaEhc3pOsded/Sm52IzgNzVmp
+    qjYp5s2kuVP1fxBKcJRfpFw07OEIP4wkHocNN9bCdhjCOzlFYRqM8slilivkhv7Q
+    qgWUI33B49ez3DhDzdY8OL60znq3ZJp6mB/300ZAg59lAoHBAIHhHfRGCAgvRo0E
+    sgVFFeMSisfqDJ+JG2/7cN2C/9sHDEOD0zPsy+PZCw21gNM4YWeKvkA0qAGAuUwI
+    O/IJL7pxLNu4Ip3NyCobk00zBfMCUlk2st0rVPEt9YE8YMMXLkk56thCBbIn6Y6t
+    wAm8Zh20gh8YmoikgI0SoGXMCSj9wZq79rBGMtNQ1iRSJZySJaOr9e5/OLgiMHJR
+    gLTChCmOP8QRzRLPgK2u2GYcnGziCI1CO+kg8NtPteAU4QgtGQKBwQCqFsXhpc4U
+    IZH+wgkHOZUGF9A59XX8BnGChR+ZO0PChG24esSUySfiovULFDsQglLJVUT3YIK+
+    qAaJlK7TCpsGW8nFW/eIIp+roE1lPryudnM2akrvNAyaBVCLI+oHQCaxIRQd+Sjp
+    piMC00hXlUkaN5UWC4kw037GFylCK+qsW3DYTI8ImBt9hGF4eXxM2QSI76lRpHVo
+    5aJO5muR3lSWiTy48h11x0qUa5Iwct4l8ytsypqbj7UE5LlDE7qLCRg=
+    -----END RSA PRIVATE KEY-----
+arangodb: 
+  addrs: http://localhost:8529
+  db: xtrace-dev
+  username: xtrace
+  password: 123456
+telemetry: 
+  enabled: true 

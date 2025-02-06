@@ -31,8 +31,12 @@ curl http://localhost:9835/metrics
 curl http://localhost:9100/metrics
 
 # dcgm-exporter 启动会比较慢，需要等待30s左右
-curl http://localhost:9400/metrics
+curl http://localhost:9400/metrics # NVIDIA NVSwitch Configuration and Query
 ```
+
+> 可能会遇到查不到 nvlink 相关的指标。可能缺少了NVSwitch Configuration and Query相关的库(libnvidia-nscq.so)。
+>
+> 可以使用 "ls /usr/lib/x86_64-linux-gnu | grep nscq" 查看一下, 如果没有请参考这里安装一下库 [开启GDS](https://www.chenshaowen.com/blog/how-to-enable-gds-on-gpu-host.html) 
 
 
 # 启动 categraf

@@ -1,0 +1,22 @@
+services:
+  xtrace:
+    image: dev.xtrace
+    container_name: xtrace
+    command:
+      - /bin/xtrace
+      - server
+      - --config
+      - /etc/xtrace/config.yaml
+    volumes:
+      - ./config.yaml:/etc/xtrace/config.yaml:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`api.xtrace.dev`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.corsheader.headers.accesscontrolallowmethods=GET,POST,DELETE,OPTIONS,PUT"
+      - "traefik.http.middlewares.corsheader.headers.accesscontrolallowheaders=*"
+      - "traefik.http.middlewares.corsheader.headers.accesscontrolalloworiginlist=https://xtrace.dev,http://localhost:3001"
+      - "traefik.http.middlewares.corsheader.headers.accesscontrolmaxage=100"
+      - "traefik.http.middlewares.corsheader.headers.accesscontrolallowcredentials=true"
+      - "traefik.http.middlewares.corsheader.headers.addvaryheader=true"
