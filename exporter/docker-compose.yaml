@@ -43,3 +43,14 @@ services:
       - /:/host:ro,rslave
     command:
       - "--path.rootfs=/root"
+  # mfu-exporter
+  mfu-exporter:
+    container_name: mfu-exporter
+    image: mfu-exporter:v1.0.0
+    restart: always
+    environment:
+      - AI_METRICS_LABEL=mfu
+      - NODE_LABEL="your node unique flag" # 修改处
+      - LOKI_URL="your loki url" # 修改处
+    ports:
+      - 9133:9133

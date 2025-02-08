@@ -4,6 +4,13 @@
 我们需要在各个节点机器上采集所需的监控指标，
 即我们需要到各个节点部署下文提到的 exporters 和 categraf
 
+# 前置条件
+注意！如果没有安装 loki，请跳过这一步，并且注释掉 `docker-compose.yaml` 中 `mfu-exporter` 相关内容
+
+首先，我们要安装 mfu-exporter。请参考 [安装 mfu-exporter](https://github.com/xiaoxlm/parse-to-metrics)
+
+> 跳过 "docker 运行这一步"
+
 # 启动所有 exporter
 进入到该目录后，我们直接使用 `docker-compose` 命令启动即可
 ```shell
@@ -12,6 +19,8 @@ $ docker-compose -f docker-compose.yaml up -d
 ✔ Container nvidia-smi-exporter  Started   0.6s
 ✔ Container node-exporter        Started   0.6s
 ✔ Container dcgm-exporter        Started   0.8s
+✔ Container mfu-exporter         Started   0.8s
+
 ```
 
 > 启动的时候可能会遇到报错:`could not select device driver "" with capabilities: [[gpu]]`
@@ -29,6 +38,9 @@ curl http://localhost:9835/metrics
 
 # node-exporter
 curl http://localhost:9100/metrics
+
+# mfu-exporter
+curl http://localhost:9133/metrics
 
 # dcgm-exporter 启动会比较慢，需要等待30s左右
 curl http://localhost:9400/metrics # NVIDIA NVSwitch Configuration and Query

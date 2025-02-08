@@ -1,6 +1,6 @@
 services:
   xtrace:
-    image: dev.xtrace
+    image: dev.xtrace:latest
     container_name: xtrace
     command:
       - /bin/xtrace

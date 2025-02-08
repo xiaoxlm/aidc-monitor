@@ -48,6 +48,19 @@ receivers:
             - targets: [ dcgm-exporter节点2的ip:9400 ] # 修改处
               labels:
                 host_ip: 'dcgm-exporter节点1的ip' # 修改处
+        - job_name: mfu-exporter
+          scrape_interval: 5s
+          static_configs:
+            - targets: [ mfu-exporter节点1ip:9133 ] # 修改处
+              labels:
+                host_ip: 'mfu-exporter节点1ip' # 修改处
+            - targets: [ mfu-exporter节点2ip:9133 ] # 修改处
+              labels:
+                host_ip: 'mfu-exporter节点2ip' # 修改处
+        - job_name: nccl-exporter
+          scrape_interval: 2s
+          static_configs:
+            - targets: [ nccl-exporter节点ip:9134 ] # 修改处
 #        - job_name: kube-state-metrics-exporter # k8s 资源采集器，需要在k8s中部署kube-state-metrics。如果没有使用 k8s 或者没有部署 kube-state-metrics，请把这里注释掉
 #          scrape_interval: 5s
 #          static_configs:

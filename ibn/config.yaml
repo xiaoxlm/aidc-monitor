@@ -43,7 +43,7 @@ auth:
     5aJO5muR3lSWiTy48h11x0qUa5Iwct4l8ytsypqbj7UE5LlDE7qLCRg=
     -----END RSA PRIVATE KEY-----
 arangodb: 
-  addrs: http://localhost:8529
+  addrs: http://localhost:8529 # 修改处
   db: xtrace-dev
   username: xtrace
   password: 123456

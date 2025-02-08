@@ -53,25 +53,3 @@ prometheus-k8s-nodeport   NodePort   10.105.149.238   <none>        9090:30900/T
 
 # 部署 dlrover
 请参考 [dlrover部署手册](./dlrover-zh.md)
-
-# 部署 promtail
-promtail 主要用日志的采集，它与 loki 衔接得非常丝滑。如果我们没有部署 loki，那么这部分内容可以跳过。
-
-进入目录后，我们只需修改 `promtail-daemonset.yaml` 中一处信息:
-```yaml
-    clients:
-      - url: http://loki节点ip:3100/loki/api/v1/push #修改处 loki地址
-```
-修改完 loki 地址后，直接执行执行:
-```shell
-% kubectl apply -f ./promtail-daemonset.yaml
-```
-
-随后我们执行如下命令，会看到两个相关pod，如果它们都是 Running 状态则代表部署成功:
-```shell
-$ k get pods -A | grep promtail
-default  promtail-daemonset-4ng2m  1/1  Running 0 28h
-default  promtail-daemonset-n8nnh  1/1 Running 0 28h
-```
-
-这时如果我们安装了 grafana，进入 grafana 配置好 loki 数据源后进入 Explore 界面，即可看到相关的日志指标。

@@ -22,7 +22,20 @@
 
 具体请参考 [k8s 环境的安装手册](./k8s/README-zh.md)
 
-## 第二步: 安装各类exporters。 
+## 第二步: 安装引擎。
+即以容器的方式运行 prometheus 与 loki
+> 如果已经使用 k8s 安装了 prometheus-operator，并且没有采集日志的需求，那么该可以完全跳过
+
+详情请参考: [引擎安装手册](./engine/README-zh.md)
+
+
+## 第三步骤: 安装日志采集器
+使用 promtail 来采集日志。
+> 如果没有安装 loki，请跳过该步骤
+
+详情请参考: [引擎安装手册](./promtail/README-zh.md)
+
+## 第四步: 安装各类exporters。 
 主要有三个exporter。该步骤暴露的节点端口有:
 ```shell
 node-exporter: 9100
@@ -30,28 +43,37 @@ dcgm-exporter: 9400
 nvidia-smi-exporter: 9835
 ```
 
+如果我们安装了 loki, 并且使用 promtail 采集了 mfu 的日志。那么还需要安装 mfu-exporter，暴露端口如下
+```shell
+mfu-exporter: 9133
+```
+
 详情请参考: [exporters安装手册](./exporter/README-zh.md)
 
 
-## 第三步: 安装汇总采集器。
+## 第五步: 安装汇总采集器。
 包含 snmp-exporter、otel-collector 两个组件。该步骤暴露的节点端口有:
 ```shell
 snmp-exporter: 9116
 otel-collector: 8889
 ```
 
+如果我们安装了 loki, 并且使用 promtail 采集了 nccl 的日志。那么还需要安装 nccl-exporter，暴露端口如下
+```shell
+mfu-exporter: 9134
+```
+
 详情请参考: [汇总采集器](./collector/README-zh.md)
 
+## 第六步:安装 ibn 系统
+安装 xtrace 监控系统所依赖的 ibn 系统
 
-## 第四步: 安装引擎。 
-即以容器的方式运行 prometheus 与 loki
-> 如果已经使用 k8s，并且没有采集日志的需求，那这一步可以完全跳过
-
-详情请参考: [引擎安装手册](./engine/README-zh.md)
+详情请参考: [ibn系统](./ibn/README-zh.md)
 
 
-## 第五步: 安装平台系统。
-即我们的应用系统的安装，涉及 ibn、监控前端、监控后端三个服务；mysql, redis 两个中间件。
+
+## 第七步: 安装平台系统。
+即我们的监控系统的安装，涉及监控前端、监控后端三个服务；mysql, redis 两个中间件。
 
 涉及到端口有:
 ```shell

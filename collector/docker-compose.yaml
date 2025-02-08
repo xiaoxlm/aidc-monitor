@@ -1,5 +1,12 @@
 version: "3.7"
 services:
+  # nccl-exporter
+  nccl-exporter:
+    container_name: nccl-exporter
+    image: nccl-exporter:v1.0.0
+    restart: always
+    ports:
+      - 9134:9134
   # snmp-exporter
   snmp-exporter:
     container_name: snmp-exporter
