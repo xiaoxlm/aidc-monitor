@@ -11,7 +11,7 @@ docker run -d -p 8529:8529 -v ./backup_xtrace_dev:/etc/backup_xtrace_dev -e ARAN
 # 导入备份数据
 arangodb 配置外用户和数据库后，执行下面操作导入备份数据:
 ```shell
-1. 进入 arangodb 容器
+1. 进入 arangodb 容器: docker exec -it  arangodb-instance sh
 2. 创建用户 xtrace 和 数据库 xtrace-dev
 3. 执行命令: arangorestore --server.endpoint tcp://localhost:8529 --server.username xtrace --server.password 123456 --server.database xtrace-dev  --input-directory /etc/backup_xtrace_dev 
 ```

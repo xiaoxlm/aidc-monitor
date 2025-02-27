@@ -33,6 +33,7 @@ services:
     working_dir: /var/lib/mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
+      - ./xtrace_jh.sql:/var/xtrace_jh.sql
     restart: always
   n9e:
     container_name: n9e
@@ -50,8 +51,8 @@ services:
     ports:
       - 8081:2015
     environment:
-      - API_HOST=后端地址 # 修改出
-      - IBN_HOST=ibn地址  # 修改出
+      - API_HOST=http:/ip:17000 # 修改出
+      - IBN_HOST=http://ip:5317  # 修改出
     restart: always
     depends_on:
       - n9e

@@ -37,6 +37,17 @@ mysql 启动成功后，我们需要导入一些准备的数据。
 
 我们可以在本地使用 mysql 客户端工具如 navicat 连上数据库后，将 `xtrace.sql` 导入即可。
 
+如果没有客户端，则进入mysql容器执行:
+```shell
+mysql -u root -p < /var/xtrace_jh.sql
+```
+
+删除测试数据:
+```mysql
+DELETE FROM `target` WHERE id > 0;
+DELETE FROM `target_busi_group` WHERE id > 0;
+```
+
 # 启动系统
 首先修改配置。我们需要修改后端系统的配置文件 `n9e-config/config.toml` 当中的两处信息，即mysql节点ip, redis节点ip:
 ```toml

@@ -1,6 +1,6 @@
 services:
   xtrace:
-    image: dev.xtrace:latest
+    image: dev.xtrace:0219
     container_name: xtrace
     ports:
       - 5317:5317
