@@ -44,3 +44,12 @@ snmp-exporter 比较特殊，需要我们用浏览器打开。比如我现在部
 curl http://节点ip:8889/metrics
 ```
 这是我们会看到控制台输出了很多指标信息。仔细看会发现就是采集5类指标: node-exporter, dcgm-exporter, nvidia-smi-exporter, snmp-exporter, kube-state-metrics-exporter
+
+
+# 打包镜像
+```shell
+docker save -o collector.tar \
+nccl-exporter:v1.0.0 \
+prom/snmp-exporter:latest \
+otel/opentelemetry-collector-contrib:0.113.0
+```

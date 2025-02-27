@@ -36,7 +36,7 @@ services:
     restart: always
   n9e:
     container_name: n9e
-    image: xtrace-backend:v2.0.1
+    image: xtrace-backend:v2.0.2-404
     network_mode: "host"
     volumes:
       - ./n9e-config:/app/etc/
@@ -46,7 +46,7 @@ services:
       - mysql
   tracex-ui:
     container_name: tracex-ui
-    image: xtrace-n9e-ui:test-202518-1751
+    image: xtrace-n9e-ui:test-202526-1616
     ports:
       - 8081:2015
     environment:

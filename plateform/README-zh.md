@@ -65,4 +65,13 @@ root # 账号
 root.2020 # 密码
 ```
 
-## 修改数据源
+# 打包镜像
+```shell
+docker save -o platform.tar \
+redis:7.2.4 \
+mysql:8.3.0 \
+arangodb:3.9.12 \
+xtrace-n9e-ui:test-202526-1616 \
+xtrace-backend:v2.0.2-404 \
+dev.xtrace:0219
+```

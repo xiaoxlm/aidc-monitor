@@ -70,6 +70,7 @@ IBN="算网唯一标识" # 算网标识
 # ...
 url = "http://后端系统ip:17000/prometheus/v1/write"  # 用于将采集的指标推送至prometheus。
 
+# 执行远程任务
 [ibex]
 enable = true 
 ## ibex flush interval
@@ -130,4 +131,13 @@ nohup ./categraf &> categraf.log &
 2024/12/13 02:44:41 agent.go:49: I! agent started
 2024/12/13 02:44:41 heartbeat.go:19: I! ibex agent start rolling request Server.Report.
 2024/12/13 02:44:42 cli.go:84: I! choose server: 后端节点IP:20090, duration: 0ms
+```
+
+# 打包镜像
+```shell
+docker save -o export.tar \
+utkuozdemir/nvidia_gpu_exporter:1.1.0 \
+nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04 \
+prom/node-exporter:latest \
+mfu-exporter:v1.0.0 
 ```

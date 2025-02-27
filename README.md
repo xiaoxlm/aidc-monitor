@@ -60,7 +60,7 @@ otel-collector: 8889
 
 如果我们安装了 loki, 并且使用 promtail 采集了 nccl 的日志。那么还需要安装 nccl-exporter，暴露端口如下
 ```shell
-mfu-exporter: 9134
+nccl-exporter: 9134
 ```
 
 详情请参考: [汇总采集器](./collector/README-zh.md)
