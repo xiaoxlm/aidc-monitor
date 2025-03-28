@@ -19,6 +19,7 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-remote-write-receiver
       - --web.enable-lifecycle
+      - --storage.tsdb.retention.time=3d
     ports:
       - 9090:9090
     volumes:

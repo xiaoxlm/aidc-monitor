@@ -141,3 +141,15 @@ nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04 \
 prom/node-exporter:latest \
 mfu-exporter:v1.0.0 
 ```
+
+docker load -i export.tar
+scp root@10.22.60.55:/root/docker-compose-linux-x86_64 ./
+scp root@10.22.60.53:/root/exporter_categraf/dcp-metrics-included.csv ./
+scp root@10.22.60.53:/root/exporter_categraf/docker-compose.yaml ./
+
+docker-compose -f docker-compose.yaml up -d
+
+
+scp root@10.22.60.53:/root/exporter_categraf/categraf-v0.3.80-linux-amd64/conf/config.toml ./
+
+nohup ./categraf &> categraf.log &

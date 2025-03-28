@@ -10,7 +10,7 @@ services:
     volumes:
       - ./redis/data:/data #挂载数据目录到本地
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-    restart: always
+    restart: unless-stopped
   # mysql 容器
   mysql:
     container_name: n9e_mysql #指定容器名
@@ -34,14 +34,14 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./xtrace_jh.sql:/var/xtrace_jh.sql
-    restart: always
+    restart: unless-stopped
   n9e:
     container_name: n9e
     image: xtrace-backend:v2.0.2-404
     network_mode: "host"
     volumes:
       - ./n9e-config:/app/etc/
-    restart: always
+    restart: unless-stopped
     depends_on:
       - redis
       - mysql
@@ -53,6 +53,26 @@ services:
     environment:
       - API_HOST=http:/ip:17000 # 修改出
       - IBN_HOST=http://ip:5317  # 修改出
-    restart: always
+    restart: unless-stopped
     depends_on:
       - n9e
+  monitor-gateway:
+    image: monitor-gateway:v1.1.6
+    container_name: monitor-gateway
+    ports:
+      - "8080:80"
+    environment:
+      - ClientID=tong
+      - ClientSecret=tongTech@2025
+      - Mysql_DbName=n9e_v6
+      - Mysql_Host=10.10.1.84:3306
+      - Mysql_IgnoreLog=false
+      - Mysql_MaxIdleConn=1
+      - Mysql_MaxOpenConn=2
+      - Mysql_Password=uWXf87plmQGz8zMM
+      - Mysql_User=root
+      - Prom_Addr=http://10.10.1.84:30900
+      - Server_HttpPort=80
+      - Server_LogLevel=
+      - Server_RunMode=debug
+    restart: unless-stopped

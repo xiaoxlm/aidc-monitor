@@ -89,7 +89,7 @@ redis: 6379
 如果由于网络问题无法拉取镜像，我们将需要的镜像(x86)全部分批打包好。
 
 # 注意事项
-当我们的 xtrace-backend 和 xtrace-ui 代码更新后，需要重新构建其镜像。然后注意修改 ./plateform/docker-compose.yaml 中的镜像数据:
+1. 当我们的 xtrace-backend 和 xtrace-ui 代码更新后，需要重新构建其镜像。然后注意修改 ./plateform/docker-compose.yaml 中的镜像数据:
 ```yaml
   n9e:
     container_name: n9e
@@ -107,4 +107,9 @@ redis: 6379
       - n9e
 ```
 
+2. 一些客户只能开放特定端口。在安装过程中，一定要测试系统服务器和GPU服务器之间的连通性。主要涉及:
+```shell
+1. categraf
+2. gpu 相关的exporter 涉及的端口
+```
 
